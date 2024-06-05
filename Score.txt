@@ -1,0 +1,12 @@
+username0 k
+score0 0
+username1 kasdf
+score1 0
+username2 kafs
+score2 0
+username3 kasd
+score3 0
+username4 kasdf
+score4 0
+username5 kdf
+score5 0
