@@ -1,12 +1,12 @@
-username0 k
+username0 default
 score0 0
-username1 kasdf
+username1 no user
 score1 0
-username2 kafs
+username2 no user
 score2 0
-username3 kasd
+username3 no user
 score3 0
-username4 kasdf
+username4 no user
 score4 0
-username5 kdf
+username5 no user
 score5 0

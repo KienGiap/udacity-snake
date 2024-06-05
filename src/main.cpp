@@ -11,30 +11,37 @@ int main() {
   constexpr std::size_t kScreenHeight{640};
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
-  
-  int a = 1;
-  while(a)
+  const std::string directory = "../Score.txt";
+  bool quitflag = 1;
+  while(quitflag)
   {
-    std::unique_ptr<Score> score = std::make_unique<Score>();
+    std::unique_ptr<Score> score = std::make_unique<Score>(directory);
+    
+    score->PrintMenu();
+    
     switch(score->GetMode()) {
         case 1: {
-            // Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
-            // Controller controller;
-            // Game game(kGridWidth, kGridHeight);
-            // game.Run(controller, renderer, kMsPerFrame);
-            // score.AddNewScore(game.GetScore());
+            Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+            Controller controller;
+            Game game(kGridWidth, kGridHeight);
+            game.Run(controller, renderer, kMsPerFrame);
+            score->AddNewScore(game.GetScore());
             break;
         }
         case 2: {
-            //score.PrintPlayer();
+            score->PrintPlayer();
             break;
         }
+        case 3:
+            score->ClearDataBase(); // not sure why this code fail
+            break;
         default: {
-            a = 0; // quit game
+            quitflag = 0;     // case 4: quit game
+            break;
         }
     }
   }
-
+  std::cout << "Good byte" << std::endl;
   // end
   return 0;
 }

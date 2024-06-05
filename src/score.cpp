@@ -1,23 +1,27 @@
 
 #include "score.h"
 #include "limits"
-void Menu::PrintMenu() {
-    std::cout << "!!! WELCOME TO SNAKE GAME !!!" << std::endl;
-    std::cout << "Enter your name: ";
-    std::getline(std::cin,name);
+
+bool Menu::startGame = false;
+std::string Score::currentName = "default";
+void Score::PrintMenu() {
+    if(GetStartGame() == false) {
+        std::cout << "!!! WELCOME TO SNAKE GAME !!!" << std::endl;
+        std::cout << "Enter your name: ";
+        std::getline(std::cin,currentName);
+        SetStartGame(true);
+    }
     std::cout << "Valid options: 1 - 3 " << std::endl;
     std::cout << "1. start game" << std::endl;
     std::cout << "2. leader board" << std::endl;
-    std::cout << "3. quit game" << std::endl;
+    std::cout << "3. reset score" << std::endl;
+    std::cout << "4. quit game" << std::endl;
     do {
-       std::cout << "Enter------> "; 
-       std::cin >> menu;
-    } while (menu < 1 || menu > 3);
-    
-}
-int Menu::GetMenu() {
-    Menu::PrintMenu(); 
-    return menu; 
+       std::cout << "Enter------> ";
+       int usrInput;
+       std::cin >> usrInput;
+       SetMenu(usrInput);
+    } while (GetMenu() < 1 || GetMenu() > 4);   
 }
 
 void Score::LoadToRam(std::string keyword,std::string value) {
@@ -28,35 +32,29 @@ void Score::LoadToRam(std::string keyword,std::string value) {
     } else {
         static std::string temp;
         if (keyword.find(usr) != std::string::npos) {
-            temp = value;       // TODO 
+            temp = value;       //TODO: improve this code 
         } else if (keyword.find(val) != std::string::npos) {
             T_user tempp = {temp, std::stoi(value)};
             recentScore.push_back(tempp);
         }
     }
 }
-static int count = 0;
-Score::Score() : mode(1), currentName("Menu::GetName()") {
+Score::Score(std::string directory) : filePath(directory) {
     // read data from file
     std::string line, keyword, value;
-    std::ifstream file(directory);
+    std::ifstream file(filePath);
     if(file.is_open()) {
-
         while(getline(file,line)) {
             std::istringstream iss(line);
             iss >> keyword;
             value = line.substr(keyword.size() + 1);
-            count ++;
             LoadToRam(keyword,value);
         }
-        std::cout << "count:" << count  << std::endl;
     }
     file.close();
-    // choose menu
-
 }
 Score::~Score() {
-    std::ofstream file(directory);
+    std::ofstream file(filePath);
     if(file.is_open()) {
         file << usr + "0" << " " <<maxUsr.user << '\n';
         file << val + "0" << " " << maxUsr.score << '\n';
@@ -67,33 +65,51 @@ Score::~Score() {
     }
     file.close();
 }
+void Score::ClearDataBase() {
+    // ask people enter yes
+    std::string ans;
+    std::cout << "are you sure? 'y': yes, 'n':no ---> ";
+    std::cin >> ans;
+    if(ans == "n") {
+        return;
+    } else if (ans == "y") {
+        std::ofstream file("../Score.txt");
+        if(file.is_open()) {
+            std::cout << "open success";
+            file << usr + "0" << " " << "default" << '\n';
+            file << val + "0" << " " << "0" << '\n';
+            for(int i = 0; i < MAX_USER; i++) {
+                file << usr << i+1 << " " << "no user" << '\n';
+                file << val << i+1 << " " << "0" << '\n';
+            }
+            file.flush();
+        }
+        file.close();
+    }
+}
 void Score::AddNewScore(int score) {
     if(score > maxUsr.score) {
         maxUsr.score = score;
         maxUsr.user = currentName;
     }
     T_user temp = {currentName,score};
-    recentScore.push_front(temp);
+    recentScore.emplace_front(temp);
     if(MAX_USER <= recentScore.size()) {
         recentScore.pop_back();
     }
 }
 
 void Score::PrintPlayer(){
-     std::cout << "max"<< " " << maxUsr.score << " "<< maxUsr.user << std::endl;
+    std::cout << "=========================" << std::endl;
+    std::cout << "MAX SCORE: " << maxUsr.score << " BY: "<< maxUsr.user << std::endl;
     for(int i = 0; i < MAX_USER; i++){
-        std::cout << "username#" << i + 1 << ": " << recentScore[i].user << " "<< "score: "<< recentScore[i].score << std::endl;
+        std::cout << "usr#" << i + 1 << ": " << recentScore[i].user << " "<< "score: "<< recentScore[i].score << std::endl;
     }
+    std::cout << "=========================" << std::endl;
 }
 
-int main() {
-    // while(1) {
-    //     Score a;
-    //     a.PrintPlayer();
-    // }
-    Score a;
-    Score b;
-    a.PrintPlayer();
-    b.PrintPlayer();
-    return 0;
-}
+// int main() {
+//     Score a;
+//     a.ClearDataBase();
+//     return 0;
+// }

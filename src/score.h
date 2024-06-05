@@ -20,28 +20,33 @@ typedef struct DATABASE {
 class Menu {
     public:
         virtual void PrintPlayer() = 0;
-        void PrintMenu();
-        int GetMenu();
-        std::string GetName() { return name; }
+        virtual void PrintMenu() = 0;
+        void SetStartGame(bool x) { startGame = x;}
+        bool GetStartGame() { return startGame; }
+        void SetMenu(int menu) {this->menu = menu;}
+        int GetMenu() { return menu; }
     private:
         int menu;
-        std::string name; // current user name;
+        static bool startGame; //is startgame the first time
 };
 
 class Score : public Menu {
     public:
-        Score();
+        Score() {};
+        Score(std::string directory);
         ~Score();
         void AddNewScore(int score);
+        void PrintMenu() override;
         void PrintPlayer() override;
-        int GetMode() { return mode; }
+        void ClearDataBase();
+        
     private:
         void LoadToRam(std::string keyword,std::string value);
-        int mode;
+
         std::deque<T_user> recentScore;
-        std::string currentName = "default";
+        static std::string currentName;
         T_user maxUsr;
-        const std::string directory = "../Score.txt";
+        std::string filePath;
         const std::string usr = "username";
         const std::string val = "score";
 };
