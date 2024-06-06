@@ -13,13 +13,14 @@ int main() {
   constexpr std::size_t kGridHeight{32};
   const std::string directory = "../Score.txt";
   bool quitflag = 1;
+
   while(quitflag)
   {
     std::unique_ptr<Score> score = std::make_unique<Score>(directory);
     
     score->PrintMenu();
-    
-    switch(score->GetMode()) {
+
+    switch(score->GetMenu()) {
         case 1: {
             Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
             Controller controller;

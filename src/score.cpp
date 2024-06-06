@@ -62,6 +62,7 @@ Score::~Score() {
             file << usr << i+1 << " " << recentScore[i].user << '\n';
             file << val << i+1 << " " << recentScore[i].score << '\n';
         }
+        file.flush();
     }
     file.close();
 }
@@ -74,14 +75,16 @@ void Score::ClearDataBase() {
         return;
     } else if (ans == "y") {
         std::ofstream file("../Score.txt");
+        if(!file) {std::cout << "open failed" << std::endl;}
         if(file.is_open()) {
-            std::cout << "open success";
+            std::cout << "open success" << std::endl;
             file << usr + "0" << " " << "default" << '\n';
             file << val + "0" << " " << "0" << '\n';
             for(int i = 0; i < MAX_USER; i++) {
                 file << usr << i+1 << " " << "no user" << '\n';
                 file << val << i+1 << " " << "0" << '\n';
             }
+            std::cout << "clear success" << std::endl;
             file.flush();
         }
         file.close();
