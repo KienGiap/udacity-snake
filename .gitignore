@@ -46,3 +46,16 @@ build/CMakeFiles/SnakeGame.dir/src/score.cpp.o.d
 build/CMakeFiles/SnakeGame.dir/src/snake.cpp.o
 build/CMakeFiles/SnakeGame.dir/src/snake.cpp.o.d
 src/a.out
+build/build.ninja
+build/compile_commands.json
+build/.cmake/api/v1/query/client-vscode/query.json
+build/.cmake/api/v1/reply/cache-v2-f51a906c1450a064619c.json
+build/.cmake/api/v1/reply/cmakeFiles-v1-15e071ed0a61061024fc.json
+build/.cmake/api/v1/reply/codemodel-v2-c3aa453c99e78d8b04e9.json
+build/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json
+build/.cmake/api/v1/reply/index-2024-06-08T03-38-04-0703.json
+build/.cmake/api/v1/reply/target-SnakeGame-Debug-9ed869da2315848fcdd8.json
+build/.cmake/api/v1/reply/toolchains-v1-058159511dde99287f15.json
+build/CMakeFiles/rules.ninja
+.DS_Store
+.gitignore

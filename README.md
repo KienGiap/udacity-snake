@@ -1,6 +1,6 @@
 # CPPND: Capstone Snake Game Example
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+A modifed version of Snake Game example project udacity
 
 <img src="snake_game.gif"/>
 
@@ -30,7 +30,41 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
 
+## New features
+1. Added a loop in main() so user will not have to run program again
+2. Added a menu with 4 options:
+     - 1. Start game
+     - 2. View highest score and 5 recents game score
+     - 3. Remove all the data from game (sometime not working)
+     - 4. Quit game
+3. User now can enter their name and save some current scores
+4. Obstacles are 3 pixels on the game, snake will die if it hits the obstacle and appears only after eating the first food.
+5. The food will relocate after every few seconds (6s - 10s)
 
+## Project Rubric
+
+1. README: all rubrics met
+2. Compile and test: project compiles and runs without error
+3. Loops, Functions, I/O:
+  - The project demonstrates an understanding of C++ functions and control structures. -> through out the project workspace
+  - The project reads data from a file and process the data, or the program writes data to a file. -> In constructor and destructor of class **Score**
+  - The project accepts user input and processes the input. -> **Score::PrintMenu()** allows user input their name
+  - The project uses data structures and immutable variables. -> **obstacle** in game.h is defined as vector and constant directory in main.cpp.
+4. Object Oriented Programming
+  - One or more classes are added to the project with appropriate access specifiers for class members. -> class **Score** met this rubric
+  - Class constructors utilize member initialization lists -> Constructor of class **Score** met this rubric
+  - Classes follow an appropriate inheritance hierarchy with virtual and override functions. -> class **Score** inherits the **Menu** class, and override the virtual function of base class
+  - Classes abstract implementation details from their interfaces. -> Methods added are comprehensiveness
+5. Memory management
+  - The project makes use of references in function declarations. -> parameterized constructor and void AddNewScore() uses pass by ref
+  - The project uses destructors appropriately. -> **Score** use destructor to write new things to file
+  - The project uses smart pointers instead of raw pointers. -> class **Game** constructor uses unique_ptr to allocate heap for Score.
+6. Concurrency
+  - The project uses multithreading. -> Game::UpdateFood() runs in a new thread to update food every 6 - 10 sec
+  - A mutex or lock is used in the project -> Mutex lock is used before PlaceFood() to avoid race condition.
+## Tested device
+ - Macos 11.7
+ - Ubuntu 23.0
 ## CC Attribution-ShareAlike 4.0 International
 
 

@@ -33,9 +33,9 @@ class Menu {
 class Score : public Menu {
     public:
         Score() {};
-        Score(std::string directory);
+        Score(std::string const& directory);
         ~Score();
-        void AddNewScore(int score);
+        void AddNewScore(int const &score);
         void PrintMenu() override;
         void PrintPlayer() override;
         void ClearDataBase();

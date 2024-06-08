@@ -3,18 +3,20 @@
 #include "SDL.h"
 #include <thread>
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
+Game::Game(std::size_t grid_width, std::size_t grid_height,std::string directory)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-
+        
+      gameScore = std::make_unique<Score>(directory);
       timeStamp = std::chrono::system_clock::now();
       PlaceFood();
 }
 void Game::UpdateFood() {
-  std::this_thread::sleep_for(std::chrono::microseconds(50));
+ 
   while(snake.alive == 1 ) {
+    std::this_thread::sleep_for(std::chrono::microseconds(1));
     std::random_device random;
     std::mt19937 eng(random());
     std::uniform_int_distribution<int> dist(LOWEST_RANDOM,HIGHEST_RANDOM);
@@ -26,6 +28,7 @@ void Game::UpdateFood() {
     }
     if(destroyThread == 0) { return; } // return point when game has ended
   }
+  
 }
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {

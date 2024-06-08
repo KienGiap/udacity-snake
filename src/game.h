@@ -9,17 +9,18 @@
 #include <chrono>
 #include "mutex"
 #include <memory>
+#include "score.h"
 #define NUMBER_OF_OBSTACLE 3
 #define LOWEST_RANDOM     6
 #define HIGHEST_RANDOM    10
 class Game {
  public:
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t grid_width, std::size_t grid_height,std::string directory);
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
-  
+  std::unique_ptr<Score> gameScore;
  private:
   Snake snake;
   SDL_Point food;

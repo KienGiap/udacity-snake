@@ -16,25 +16,22 @@ int main() {
 
   while(quitflag)
   {
-    std::unique_ptr<Score> score = std::make_unique<Score>(directory);
-    
-    score->PrintMenu();
-
-    switch(score->GetMenu()) {
+    Game game(kGridWidth, kGridHeight,directory);
+    game.gameScore->PrintMenu();
+    switch(game.gameScore->GetMenu()) {
         case 1: {
             Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
             Controller controller;
-            Game game(kGridWidth, kGridHeight);
             game.Run(controller, renderer, kMsPerFrame);
-            score->AddNewScore(game.GetScore());
+            game.gameScore->AddNewScore(game.GetScore());
             break;
         }
         case 2: {
-            score->PrintPlayer();
+            game.gameScore->PrintPlayer();
             break;
         }
         case 3:
-            score->ClearDataBase(); // not sure why this code fail
+            game.gameScore->ClearDataBase(); // not sure why this code fail
             break;
         default: {
             quitflag = 0;     // case 4: quit game
@@ -42,7 +39,7 @@ int main() {
         }
     }
   }
-  std::cout << "Good byte" << std::endl;
+  std::cout << "Good bye !" << std::endl;
   // end
   return 0;
 }

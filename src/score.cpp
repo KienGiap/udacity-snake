@@ -11,7 +11,7 @@ void Score::PrintMenu() {
         std::getline(std::cin,currentName);
         SetStartGame(true);
     }
-    std::cout << "Valid options: 1 - 3 " << std::endl;
+    std::cout << "\nValid options: 1 - 4 " << std::endl;
     std::cout << "1. start game" << std::endl;
     std::cout << "2. leader board" << std::endl;
     std::cout << "3. reset score" << std::endl;
@@ -30,16 +30,16 @@ void Score::LoadToRam(std::string keyword,std::string value) {
     } else if (keyword == (val +"0")) {
         maxUsr.score = std::stoi(value);
     } else {
-        static std::string temp;
+        static std::string recentUserName;
         if (keyword.find(usr) != std::string::npos) {
-            temp = value;       //TODO: improve this code 
+            recentUserName = value;       
         } else if (keyword.find(val) != std::string::npos) {
-            T_user tempp = {temp, std::stoi(value)};
+            T_user tempp = {recentUserName, std::stoi(value)};
             recentScore.push_back(tempp);
         }
     }
 }
-Score::Score(std::string directory) : filePath(directory) {
+Score::Score(std::string const& directory) : filePath(directory) {
     // read data from file
     std::string line, keyword, value;
     std::ifstream file(filePath);
@@ -74,23 +74,23 @@ void Score::ClearDataBase() {
     if(ans == "n") {
         return;
     } else if (ans == "y") {
-        std::ofstream file("../Score.txt");
+        std::ofstream file(filePath);
         if(!file) {std::cout << "open failed" << std::endl;}
         if(file.is_open()) {
-            std::cout << "open success" << std::endl;
+           // std::cout << "open success" << std::endl;
             file << usr + "0" << " " << "default" << '\n';
             file << val + "0" << " " << "0" << '\n';
             for(int i = 0; i < MAX_USER; i++) {
                 file << usr << i+1 << " " << "no user" << '\n';
                 file << val << i+1 << " " << "0" << '\n';
             }
-            std::cout << "clear success" << std::endl;
+            std::cout << "clear success" << std::endl; // i dont know why program reach this, but not write to file
             file.flush();
         }
         file.close();
     }
 }
-void Score::AddNewScore(int score) {
+void Score::AddNewScore(int const& score) {
     if(score > maxUsr.score) {
         maxUsr.score = score;
         maxUsr.user = currentName;
@@ -110,9 +110,3 @@ void Score::PrintPlayer(){
     }
     std::cout << "=========================" << std::endl;
 }
-
-// int main() {
-//     Score a;
-//     a.ClearDataBase();
-//     return 0;
-// }
